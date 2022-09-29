@@ -1,0 +1,297 @@
+<!-- BQ-WEB-268CreditCardPayment.html -->
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" media="screen" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<style>
+
+body{
+	background-color:inherit;
+	font-family: sans-serif;
+	font-weight: 400;
+}
+
+::placeholder{
+	font-size: 14px;
+	color: rgba(29,31,33,0.5);
+}
+
+::-ms-input-placeholder {
+	color: rgba(29,31,33,0.5);
+}
+
+::-moz-placeholder {
+	color: rgba(29,31,33,0.5);
+}
+
+#payment_info .btn-primary {
+	background-color: rgb(228, 85, 86);
+	color: white;
+	width: 100%;
+	max-width: 400px;
+	margin-top: 0.5em;
+	font-weight: 500;
+	padding: 8px;
+	align-self: center;
+	border-radius: 0;
+	font-size: 20px;
+}
+
+#payment_info .btn-primary:hover,
+#payment_info .btn-primary:active,
+#payment_info .btn-primary:focus {
+	background-color: #be3c3c;
+}
+
+.container {
+	max-width: 100%;
+	font-size:16px;
+}
+
+.form-control {
+	font-size:16px;
+	margin-right: .5em;
+	margin-top: .3em;
+}
+
+.required-label:after {
+	content:"*";
+	color: #dc3545;
+	margin-left: 2px;
+}
+
+#errorList li {
+	font-weight: 700;
+}
+
+label {
+	margin-bottom: 0;
+}
+
+.form-control {
+	border-radius:0;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+#payment_info select {
+	padding-right: 50px;
+	position:relative;
+	background-position: center right 20px;
+}
+</style>
+
+<FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate>
+<INPUT TYPE="HIDDEN" NAME="action" VALUE="paymentcapture">
+<INPUT TYPE="HIDDEN" NAME="do" VALUE="payment_validate">
+<INPUT TYPE="HIDDEN" NAME="process" VALUE="1">
+<INPUT TYPE="HIDDEN" NAME="ajax" VALUE="1">
+<INPUT TYPE="HIDDEN" NAME="token" VALUE="%TOKEN%">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div class="container">
+	<div class="form-group sm mb-3">
+		<span class="text-danger" id="error_message"></span>
+	</div>
+
+	<div class="form-group">
+		<label for="ccNumber" class="required-label">Credit Card Number</label>
+
+		<input type="text" id="ccNumber" name="ccNumber" class="form-control" maxlength="16" pattern="^[0-9]*$" inputmode="numeric"
+			   placeholder="Credit Card Number" value='%ccNumber%' required>
+	</div>
+
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label for="ccName" class="required-label">Name exactly as it appears on your credit card</label>
+
+			<input type="text" id="ccName" name="ccName" class="form-control" placeholder="Name on Credit Card" value="%ccName%" required>
+		</div>
+
+		<div class="form-group col-md-6">
+			<label for="ccType" class="required-label">Credit Card Type</label>
+
+			<select id="ccType" name="ccType" class="form-control">
+				<TMPL_LOOP CC_LOOP><option VALUE="%TYPE%" %SELECTED%>%NAME%</option></TMPL_LOOP>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="ccExpMM" class="required-label">Card Expiration Month</label>
+
+				<select id="ccExpMM" name="ccExpMM" class="form-control sm " placeholder="Exp. Month" required>
+					<TMPL_LOOP CC_EXP_MM_LOOP><option value="%MONTH%" %SELECTED%>%MONTH%</TMPL_LOOP CC_EXP_MM_LOOP>
+				</select>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="ccExpYY" class="required-label">Card Expiration Year</label>
+
+				<select name="ccExpYY" id="ccExpYY" class="form-control sm" placeholder="Year" required>
+					<TMPL_LOOP CC_EXP_YY_LOOP><option value="%YEAR%" %SELECTED%>%YEAR%</TMPL_LOOP CC_EXP_YY_LOOP>
+				</select>
+			</div>
+	</div>
+
+	<div class="form-group">
+		<label for="ccCVC" class="required-label">CC CVV</label>
+
+		<input type="text" class="form-control" id="ccCVC" name="ccCVC" size="5" maxlength="5" placeholder="Security Code" value='%ccCVC%' required>
+	</div>
+
+	<TMPL_IF OFFER_AUTOPAY>
+		<div class="form-check mb-3">
+			<input class="form-check-input" type="checkbox" name="ccForAutopay" id="ccForAutopay" <TMPL_IF ccForAutopay>checked="1"</TMPL_IF>>
+			<label class="form-check-label align-content-center" for="ccForAutopay">Save this card</label>
+		</div>
+	</TMPL_IF>
+
+	<div class="form-group">
+		<label for="ccAddress" class="required-label">Billing Street Address (No P.O. Box)</label>
+
+		<input type="text" id="ccAddress" name="ccAddress" class="form-control" placeholder="Billing Address" value="%ccAddress%" required>
+	</div>
+
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label for="ccAddress2">Apartment or Unit Number</label>
+			<input type="text" id="ccAddress2" name="ccAddress2" class="form-control" placeholder="Apt/Suite #" value="%ccAddress2%">
+		</div>
+
+		<div class="form-group col-md-6">
+			<label for="ccCity" class="required-label">City</label>
+			<input type="text" id="ccCity" name="ccCity" class="form-control" placeholder="City" value="%ccCity%" required>
+		</div>
+	</div>
+
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label for="ccZip" class="required-label">Zip Code</label>
+
+			<input type="text" id="ccZip" name="ccZip" size="5" maxlength="5" class="form-control" placeholder="Zip" value="%ccZip%" required>
+		</div>
+
+		<div class="form-group col-md-6">
+			<label for="ccState" class="required-label">State</label>
+
+			<input type="text" id="ccState" name="ccState" size="2" maxlength="2" class="form-control" placeholder="State" value="%ccState%" required>
+		</div>
+	</div>
+
+	<div class="form-group mb-2 justify-content-center align-content-center d-flex flex-column">
+		<button type="submit" id="validate_payment"  class="btn btn-primary mb-2">Place Order</button>
+		<div class="loading_div" id="loading_div" style="display:none;"><img src="/images/ajax-loader-transparent.gif">
+			<span>Validating Payment information...</span>
+		</div>
+		<div class="form-check">
+			<img src="/images/check_medium.png" id="img_ok" class="img-fluid align-content-center">
+			<span class="text-success" id="success_info"></span>
+		</div>
+	</div>
+</div>
+</form>
+
+<SCRIPT type="text/javascript" LANGUAGE="JavaScript">
+jQuery('#img_ok').hide();
+
+var form = document.querySelector('#payment_info');
+
+form.addEventListener('submit', function(event){
+	event.preventDefault();
+	event.stopPropagation();
+
+	if (form.checkValidity() === false) {
+		form.classList.add('was-validated');
+
+		$('html,body').animate({scrollTop: $('.was-validated .form-control:invalid').first().offset().top - 50},'slow');
+
+		return false;
+	}
+
+	process_data();
+});
+
+function process_data() {
+	jQuery('#validate_payment').hide();
+	jQuery('#loading_div').show();
+	jQuery('#error_message').hide();
+	clear_errors();
+
+	var params = jQuery('#payment_info').serialize();
+
+	jQuery.ajax({
+		'url': '/oss/web/customercare/paymentcapture',
+		'type':'post',
+		'dataType':'json',
+		'timeout': 60000,
+		'ajax': '1',
+		'data': params,
+		success: function(data){
+			var json = data;
+			if (json.errors == 0)
+				{
+					jQuery('#img_ok').show();
+					jQuery('#success_info').text("Information validated successfully");
+					signal_parent(json);
+				}
+			else {
+				form.classList.remove('was-validated');
+
+				var lu = document.createElement("ul");
+				lu.setAttribute('id','errorList')
+				jQuery('#error_message').append(lu)
+				jQuery.each(json.detail, function(key, item){
+					append_error(lu, item)
+				});
+				jQuery('#error_message').show();
+				jQuery('#validate_payment').show();
+				signal_parent(json);
+				}
+			},
+		error: function(data)
+		{
+			form.classList.remove('was-validated');
+
+			var lu = document.createElement("ul");
+			lu.setAttribute('id','errorList')
+			jQuery('#error_message').append(lu)
+			append_error(lu, "Internal Error Occured")
+			jQuery('#error_message').show();
+			jQuery('#validate_payment').show();
+			signal_parent({errors:1,detail:["Internal Failure"]});
+		},
+		complete: function(){
+			jQuery('#loading_div').hide();
+		}
+		});
+	return false;
+}
+
+function append_error(parent, text){
+	var li = document.createElement("li");
+	li.append(document.createTextNode(text));
+	parent.append(li);
+}
+function clear_errors() {
+	jQuery("#errorList").remove();
+}
+
+function signal_parent(data){
+	if(data.errors ==0){
+		var data = { is_success: true, message: "Validation Passed" };
+		parent.postMessage({ detail: data },"*");
+	}
+	else {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+		var data = { is_success: false, message: "Validation Errors",errors: data.detail };
+		parent.postMessage({ detail: data },"*");
+	}
+}
+
+</SCRIPT>
