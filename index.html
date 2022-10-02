@@ -225,35 +225,6 @@
 		process_data();
 	});
 
-	var isMobileView = $(window).width() < 576;
-	var isInit = true;
-
-	window.addEventListener('resize', debounce(function (e) {
-		if(isInit){
-			isInit = false;
-
-			return;
-		}
-
-		if (isMobileView && !($(window).width() < 576)) {
-			isMobileView = false;
-
-			sendFormHeightToParent();
-
-			console.log('DESKTOP')
-
-			return;
-		}
-
-		if (!isMobileView && $(window).width() < 576) {
-			isMobileView = true;
-
-			sendFormHeightToParent();
-
-			console.log('MOBILE')
-		}
-	}));
-
 	function process_data() {
 		jQuery('#validate_payment').hide();
 		jQuery('#loading_div').show();
@@ -261,8 +232,6 @@
 		clear_errors();
 
 		var params = jQuery('#payment_info').serialize();
-
-		sendFormHeightToParent();
 
 		jQuery.ajax({
 			'url': '/oss/web/customercare/paymentcapture',
@@ -307,8 +276,6 @@
 			},
 			complete: function(){
 				jQuery('#loading_div').hide();
-
-				sendFormHeightToParent()
 			}
 		});
 		return false;
@@ -333,19 +300,5 @@
 			var data = { is_success: false, message: "Validation Errors",errors: data.detail };
 			parent.postMessage({ detail: data },"*");
 		}
-	}
-
-	function sendFormHeightToParent() {
-		if (window.parent) {
-			window.parent.postMessage({formOuterHeight: jQuery('#payment_info').outerHeight()}, "*");
-		}
-	}
-
-	function debounce(func){
-		var timer;
-		return function(event){
-			if(timer) clearTimeout(timer);
-			timer = setTimeout(func,500,event);
-		};
 	}
 </SCRIPT>
