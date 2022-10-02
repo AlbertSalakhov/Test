@@ -225,12 +225,9 @@
 		process_data();
 	});
 
-	window.addEventListener('resize', function () {
-		console.log('hrer');
-		console.log('resize');
-
+	window.addEventListener('resize', debounce(function(e){
 		sendFormHeightToParent();
-	});
+	}));
 
 	function process_data() {
 		jQuery('#validate_payment').hide();
@@ -317,5 +314,13 @@
 		if (window.parent) {
 			window.parent.postMessage({formOuterHeight: jQuery('#payment_info').outerHeight()}, "*");
 		}
+	}
+
+	function debounce(func){
+		var timer;
+		return function(event){
+			if(timer) clearTimeout(timer);
+			timer = setTimeout(func,1000,event);
+		};
 	}
 </SCRIPT>
