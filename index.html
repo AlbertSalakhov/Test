@@ -232,12 +232,16 @@
 			isMobileView = false;
 
 			sendFormHeightToParent();
+
+			console.log('DESKTOP')
 		}
 
 		if (!isMobileView && $(window).width() < 576) {
 			isMobileView = true;
 
 			sendFormHeightToParent();
+
+			console.log('MOBILE')
 		}
 	}));
 
