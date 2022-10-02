@@ -226,14 +226,23 @@
 	});
 
 	var isMobileView = $(window).width() < 576;
+	var isInit = true;
 
 	window.addEventListener('resize', debounce(function (e) {
-		if (isMobileView && (!$(window).width() < 576)) {
+		if(isInit){
+			isInit = false;
+
+			return;
+		}
+
+		if (isMobileView && !($(window).width() < 576)) {
 			isMobileView = false;
 
 			sendFormHeightToParent();
 
 			console.log('DESKTOP')
+
+			return;
 		}
 
 		if (!isMobileView && $(window).width() < 576) {
