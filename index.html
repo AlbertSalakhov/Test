@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Latest compiled and minified JavaScript -->
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <style>
 
@@ -67,7 +67,7 @@
 
 	#errorList {
 		max-height: 120px;
-		overflow-y: auto;
+		overflow-y: scroll;
 		padding-left: 20px;
 	}
 
@@ -124,7 +124,7 @@
 			<div class="form-group col-sm-6 d-flex flex-column form-group justify-content-end">
 				<label for="ccType" class="required-label">Credit Card Type</label>
 
-				<select id="ccType" name="ccType" class="form-control">
+				<select id="ccType" name="ccType" class="form-control" required>
 					<TMPL_LOOP CC_LOOP><option VALUE="%TYPE%" %SELECTED%>%NAME%</option></TMPL_LOOP>
 				</select>
 			</div>
@@ -225,6 +225,10 @@
 		process_data();
 	});
 
+	window.parent.addEventListener('scroll', function () {
+		console.log('Test');
+	})
+
 	function process_data() {
 		jQuery('#validate_payment').hide();
 		jQuery('#loading_div').show();
@@ -232,6 +236,8 @@
 		clear_errors();
 
 		var params = jQuery('#payment_info').serialize();
+
+		parent.postMessage({ formOuterHeight: jQuery('#payment_info').outerHeight() },"*");
 
 		jQuery.ajax({
 			'url': '/oss/web/customercare/paymentcapture',
@@ -276,6 +282,8 @@
 			},
 			complete: function(){
 				jQuery('#loading_div').hide();
+
+				parent.postMessage({ formOuterHeight: jQuery('#payment_info').outerHeight() },"*");
 			}
 		});
 		return false;
