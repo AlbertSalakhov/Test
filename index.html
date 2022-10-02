@@ -225,9 +225,12 @@
 		process_data();
 	});
 
-	window.parent.addEventListener('scroll', function () {
-		console.log('Test');
-	})
+	window.addEventListener('resize', function () {
+		console.log('hrer');
+		console.log('resize');
+
+		sendFormHeightToParent();
+	});
 
 	function process_data() {
 		jQuery('#validate_payment').hide();
@@ -237,7 +240,7 @@
 
 		var params = jQuery('#payment_info').serialize();
 
-		parent.postMessage({ formOuterHeight: jQuery('#payment_info').outerHeight() },"*");
+		sendFormHeightToParent();
 
 		jQuery.ajax({
 			'url': '/oss/web/customercare/paymentcapture',
@@ -283,7 +286,7 @@
 			complete: function(){
 				jQuery('#loading_div').hide();
 
-				parent.postMessage({ formOuterHeight: jQuery('#payment_info').outerHeight() },"*");
+				sendFormHeightToParent()
 			}
 		});
 		return false;
@@ -310,4 +313,9 @@
 		}
 	}
 
+	function sendFormHeightToParent() {
+		if (window.parent) {
+			window.parent.postMessage({formOuterHeight: jQuery('#payment_info').outerHeight()}, "*");
+		}
+	}
 </SCRIPT>
