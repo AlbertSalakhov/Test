@@ -214,9 +214,9 @@
 		event.preventDefault();
 		event.stopPropagation();
 
-		if (form.checkValidity() === false) {
-			form.classList.add('was-validated');
+		form.classList.add('was-validated');
 
+		if (form.checkValidity() === false) {
 			$('html,body').animate({scrollTop: $('.was-validated .form-control:invalid').first().offset().top - 50},'slow');
 
 			return false;
@@ -229,7 +229,9 @@
 		jQuery('#validate_payment').hide();
 		jQuery('#loading_div').show();
 		jQuery('#error_message').hide();
-		clear_errors();
+		// clear_errors();
+
+		//todo - postmessage - clear errors
 
 		var params = jQuery('#payment_info').serialize();
 
@@ -249,30 +251,15 @@
 					signal_parent(json);
 				}
 				else {
-					form.classList.remove('was-validated');
-
-					var lu = document.createElement("ul");
-					lu.setAttribute('id','errorList')
-					jQuery('#error_message').append(lu)
-					jQuery.each(json.detail, function(key, item){
-						append_error(lu, item)
-					});
-					jQuery('#error_message').show();
 					jQuery('#validate_payment').show();
 					signal_parent(json);
 				}
 			},
 			error: function(data)
 			{
-				form.classList.remove('was-validated');
-
-				var lu = document.createElement("ul");
-				lu.setAttribute('id','errorList')
-				jQuery('#error_message').append(lu)
-				append_error(lu, "Internal Error Occured")
-				jQuery('#error_message').show();
 				jQuery('#validate_payment').show();
-				signal_parent({errors:1,detail:["Internal Failure"]});
+
+				signal_parent({errors:1,detail:["Internal Error Occured"]});
 			},
 			complete: function(){
 				jQuery('#loading_div').hide();
@@ -281,22 +268,13 @@
 		return false;
 	}
 
-	function append_error(parent, text){
-		var li = document.createElement("li");
-		li.append(document.createTextNode(text));
-		parent.append(li);
-	}
-	function clear_errors() {
-		jQuery("#errorList").remove();
-	}
-
 	function signal_parent(data){
 		if(data.errors ==0){
 			var data = { is_success: true, message: "Validation Passed" };
 			parent.postMessage({ detail: data },"*");
 		}
 		else {
-			window.scrollTo({ top: 0, behavior: 'smooth' });
+			// window.scrollTo({ top: 0, behavior: 'smooth' });
 			var data = { is_success: false, message: "Validation Errors",errors: data.detail };
 			parent.postMessage({ detail: data },"*");
 		}
