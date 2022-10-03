@@ -260,6 +260,10 @@
 		},
 		unhighlight: function (element, errorClass, validClass) {
 			$(element).removeClass('is-invalid');
+		},
+		success : function (label, element) {
+			$(element).removeClass('is-invalid');
+			$(element).addClass('is-valid');
 		}
 	});
 
