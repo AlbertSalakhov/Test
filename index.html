@@ -5,6 +5,8 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <style>
 
@@ -81,10 +83,6 @@
 		border-radius:0;
 	}
 
-	.form-group {
-		margin-bottom: 20px;
-	}
-
 	#payment_info select {
 		padding-right: 50px;
 		position:relative;
@@ -97,6 +95,18 @@
 		align-items: center;
 		justify-content: center;
 	}
+
+	.error.invalid-feedback {
+		font-size:11px;
+		position:absolute;
+		bottom:0;
+	}
+
+	.form-group {
+		position:relative;
+		padding-bottom:18px;
+		margin-bottom:5px;
+	}
 </style>
 
 <FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate>
@@ -108,14 +118,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<div class="container">
-		<div class="form-group sm mb-3">
+		<div class="sm mb-3">
 			<span class="text-danger" id="error_message"></span>
 		</div>
 
 		<div class="form-group">
 			<label for="ccNumber" class="required-label">Credit Card Number</label>
 
-			<input type="text" id="ccNumber" name="ccNumber" class="form-control" maxlength="16" pattern="^[0-9]*$" inputmode="numeric"
+			<input type="text" id="ccNumber" name="ccNumber" class="form-control" maxlength="16" inputmode="numeric"
 				   placeholder="Credit Card Number" value='%ccNumber%' required>
 		</div>
 
@@ -197,7 +207,7 @@
 			</div>
 		</div>
 
-		<div class="form-group mb-2 justify-content-center align-content-center d-flex flex-column">
+		<div class="mb-2 justify-content-center align-content-center d-flex flex-column">
 			<button type="submit" id="validate_payment"  class="btn btn-primary mb-2">Place Order</button>
 			<div class="loading_div" id="loading_div" style="display:none;">
 				<img src="/images/ajax-loader-transparent.gif">
@@ -214,21 +224,64 @@
 <SCRIPT type="text/javascript" LANGUAGE="JavaScript">
 	jQuery('#img_ok').hide();
 
+	jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
+		return this.optional(element) || /^[a-z-.,()'\"\s]+$/i.test(value);
+	}, "Letters or punctuation only please");
+
 	var form = document.querySelector('#payment_info');
 
 	form.addEventListener('submit', function(event){
 		event.preventDefault();
 		event.stopPropagation();
 
-		if (form.checkValidity() === false) {
-			form.classList.add('was-validated');
-
-			$('html,body').animate({scrollTop: $('.was-validated .form-control:invalid').first().offset().top - 50},'slow');
+		if ($(form).valid()) {
+			$('#validate_payment').prop('disabled', false);
+		} else {
+			$('#validate_payment').prop('disabled', 'disabled');
 
 			return false;
 		}
 
 		process_data();
+	});
+
+	jQuery.validator.setDefaults({
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+			error.addClass('invalid-feedback');
+			element.closest('.form-group').append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass('is-invalid');
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass('is-invalid');
+		}
+	});
+
+	$('#payment_info input').on('blur keyup', function() {
+		if ($(form).valid()) {
+			$('#validate_payment').prop('disabled', false);
+		} else {
+			$('#validate_payment').prop('disabled', 'disabled');
+		}
+	});
+
+	$(form).validate({
+		rules: {
+			ccName: {
+				required: true,
+				letterswithbasicpunc: true
+			},
+			ccState: {
+				required: true,
+				letterswithbasicpunc: true
+			},
+			ccCVC: {
+				required: true,
+				number:true,
+			}
+		},
 	});
 
 	window.addEventListener('resize', debounce(function (e) {
@@ -261,8 +314,6 @@
 					signal_parent(json);
 				}
 				else {
-					form.classList.remove('was-validated');
-
 					var lu = document.createElement("ul");
 					lu.setAttribute('id','errorList')
 					jQuery('#error_message').append(lu)
@@ -276,8 +327,6 @@
 			},
 			error: function(data)
 			{
-				form.classList.remove('was-validated');
-
 				var lu = document.createElement("ul");
 				lu.setAttribute('id','errorList')
 				jQuery('#error_message').append(lu)
@@ -326,7 +375,7 @@
 
 	function sendFormHeightToParent() {
 		if (window.parent) {
-			window.parent.postMessage({formOuterHeight: jQuery(document.documentElement).outerHeight()}, "*");
+			window.parent.postMessage({formOuterHeight: jQuery(form).outerHeight()}, "*");
 		}
 	}
 
