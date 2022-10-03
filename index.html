@@ -90,6 +90,13 @@
 		position:relative;
 		background-position: center right 20px;
 	}
+
+	.loading_div,
+	.success-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 </style>
 
 <FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate>
@@ -192,10 +199,11 @@
 
 		<div class="form-group mb-2 justify-content-center align-content-center d-flex flex-column">
 			<button type="submit" id="validate_payment"  class="btn btn-primary mb-2">Place Order</button>
-			<div class="loading_div" id="loading_div" style="display:none;"><img src="/images/ajax-loader-transparent.gif">
+			<div class="loading_div" id="loading_div" style="display:none;">
+				<img src="/images/ajax-loader-transparent.gif">
 				<span>Validating Payment information...</span>
 			</div>
-			<div class="form-check">
+			<div class="form-check success-wrapper">
 				<img src="/images/check_medium.png" id="img_ok" class="img-fluid align-content-center">
 				<span class="text-success" id="success_info"></span>
 			</div>
@@ -299,16 +307,18 @@
 	function signal_parent(data){
 		if(data.errors == 0){
 			var data = { is_success: true, message: "Validation Passed" };
-			parent.postMessage({ detail: data },"*");
 
 			var event = new CustomEvent('checkout-bequick-success', {detail: data});
 		}
 		else {
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 			var data = { is_success: false, message: "Validation Errors",errors: data.detail };
-			parent.postMessage({ detail: data },"*");
 
 			var event = new CustomEvent('checkout-bequick-error', {detail: data});
+		}
+
+		if(window.parent) {
+			parent.postMessage({ detail: data },"*");
 		}
 
 		document.dispatchEvent(event);
