@@ -225,33 +225,8 @@
 		process_data();
 	});
 
-	var isMobileView = $(window).width() < 576;
-	var isInit = true;
-
 	window.addEventListener('resize', debounce(function (e) {
-		if(isInit){
-			isInit = false;
-
-			return;
-		}
-
-		if (isMobileView && !($(window).width() < 576)) {
-			isMobileView = false;
-
-			sendFormHeightToParent();
-
-			console.log('DESKTOP')
-
-			return;
-		}
-
-		if (!isMobileView && $(window).width() < 576) {
-			isMobileView = true;
-
-			sendFormHeightToParent();
-
-			console.log('MOBILE')
-		}
+		sendFormHeightToParent();
 	}));
 
 	function process_data() {
