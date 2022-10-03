@@ -282,13 +282,6 @@
 				else {
 					form.classList.remove('was-validated');
 
-					var lu = document.createElement("ul");
-					lu.setAttribute('id','errorList')
-					jQuery('#error_message').append(lu)
-					jQuery.each(json.detail, function(key, item){
-						append_error(lu, item)
-					});
-					jQuery('#error_message').show();
 					jQuery('#validate_payment').show();
 					signal_parent(json);
 				}
@@ -297,13 +290,9 @@
 			{
 				form.classList.remove('was-validated');
 
-				var lu = document.createElement("ul");
-				lu.setAttribute('id','errorList')
-				jQuery('#error_message').append(lu)
-				append_error(lu, "Internal Error Occured")
-				jQuery('#error_message').show();
 				jQuery('#validate_payment').show();
-				signal_parent({errors:1,detail:["Internal Failure"]});
+
+				signal_parent({errors:1,detail:["Internal Error Occured"]});
 			},
 			complete: function(){
 				jQuery('#loading_div').hide();
