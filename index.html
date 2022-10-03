@@ -379,7 +379,7 @@
 
 	function sendFormHeightToParent() {
 		if (window.parent) {
-			window.parent.postMessage({formOuterHeight: jQuery(form).outerHeight()}, "*");
+			window.parent.postMessage({formOuterHeight: jQuery(form).outerHeight() + 20}, "*");
 		}
 	}
 
