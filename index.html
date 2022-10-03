@@ -107,6 +107,10 @@
 		padding-bottom:18px;
 		margin-bottom:5px;
 	}
+
+	.form-interface-wrapper {
+		min-height: 70px;
+	}
 </style>
 
 <FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate>
@@ -207,7 +211,7 @@
 			</div>
 		</div>
 
-		<div class="mb-2 justify-content-center align-content-center d-flex flex-column">
+		<div class="mb-2 justify-content-center align-content-center d-flex flex-column form-interface-wrapper">
 			<button type="submit" id="validate_payment"  class="btn btn-primary mb-2">Place Order</button>
 			<div class="loading_div" id="loading_div" style="display:none;">
 				<img src="/images/ajax-loader-transparent.gif">
