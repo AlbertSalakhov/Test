@@ -297,15 +297,21 @@
 	}
 
 	function signal_parent(data){
-		if(data.errors ==0){
+		if(data.errors == 0){
 			var data = { is_success: true, message: "Validation Passed" };
 			parent.postMessage({ detail: data },"*");
+
+			var event = new CustomEvent('checkout-bequick-success', {detail: data});
 		}
 		else {
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 			var data = { is_success: false, message: "Validation Errors",errors: data.detail };
 			parent.postMessage({ detail: data },"*");
+
+			var event = new CustomEvent('checkout-bequick-error', {detail: data});
 		}
+
+		document.dispatchEvent(event);
 	}
 
 	function sendFormHeightToParent() {
@@ -318,7 +324,7 @@
 		var timer;
 		return function(event){
 			if(timer) clearTimeout(timer);
-			timer = setTimeout(func,500,event);
+			timer = setTimeout(func,400,event);
 		};
 	}
 </SCRIPT>
