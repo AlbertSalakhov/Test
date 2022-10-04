@@ -349,12 +349,10 @@
 				append_error(lu, "Internal Error Occured")
 				jQuery('#error_message').show();
 				jQuery('#validate_payment').show();
-				signal_parent({errors:1,detail:["Internal Failure"]});
+				signal_parent({errors:1,detail:["Internal Failure"], formOuterHeight: jQuery(form).outerHeight() + 20});
 			},
 			complete: function(){
 				jQuery('#loading_div').hide();
-
-				sendFormHeightToParent();
 			}
 		});
 		return false;
@@ -370,29 +368,23 @@
 	}
 
 	function signal_parent(data){
-		var data = { is_success: true, message: "Validation Passed" };
+		if(data.errors == 0){
+			var data = { is_success: true, message: "Validation Passed", formOuterHeight: jQuery(form).outerHeight() + 20  };
 
+			var event = new CustomEvent('checkout-bequick-success', {detail: data});
+		}
+		else {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+			var data = { is_success: false, message: "Validation Errors",errors: data.detail, formOuterHeight: jQuery(form).outerHeight() + 20 };
 
-		console.log(data);
-		parent.postMessage({ detail: data },"*");
+			var event = new CustomEvent('checkout-bequick-error', {detail: data});
+		}
 
-		// if(data.errors == 0){
-		// 	var data = { is_success: true, message: "Validation Passed" };
-		//
-		// 	var event = new CustomEvent('checkout-bequick-success', {detail: data});
-		// }
-		// else {
-		// 	window.scrollTo({ top: 0, behavior: 'smooth' });
-		// 	var data = { is_success: false, message: "Validation Errors",errors: data.detail };
-		//
-		// 	var event = new CustomEvent('checkout-bequick-error', {detail: data});
-		// }
-		//
-		// if(window.parent) {
-		// 	parent.postMessage({ detail: data },"*");
-		// }
-		//
-		// document.dispatchEvent(event);
+		if(window.parent) {
+			parent.postMessage({ detail: data },"*");
+		}
+
+		document.dispatchEvent(event);
 	}
 
 	function sendFormHeightToParent() {
