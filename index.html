@@ -349,7 +349,7 @@
 				append_error(lu, "Internal Error Occured")
 				jQuery('#error_message').show();
 				jQuery('#validate_payment').show();
-				signal_parent({errors:1,detail:["Internal Failure"], formOuterHeight: jQuery(form).outerHeight() + 20});
+				signal_parent({errors:1,detail:["Internal Failure"]});
 			},
 			complete: function(){
 				jQuery('#loading_div').hide();
@@ -369,19 +369,23 @@
 
 	function signal_parent(data){
 		if(data.errors == 0){
-			var data = { is_success: true, message: "Validation Passed", formOuterHeight: jQuery(form).outerHeight() + 20  };
+			var data = { is_success: true, message: "Validation Passed" };
 
 			var event = new CustomEvent('checkout-bequick-success', {detail: data});
 		}
 		else {
 			window.scrollTo({ top: 0, behavior: 'smooth' });
-			var data = { is_success: false, message: "Validation Errors",errors: data.detail, formOuterHeight: jQuery(form).outerHeight() + 20 };
+			var data = { is_success: false, message: "Validation Errors",errors: data.detail };
 
 			var event = new CustomEvent('checkout-bequick-error', {detail: data});
 		}
 
+
+		var data = { is_success: true, message: "Validation Passed" };
+
+
 		if(window.parent) {
-			parent.postMessage({ detail: data },"*");
+			parent.postMessage({ detail: data,  formOuterHeight: jQuery(form).outerHeight() + 20},"*");
 		}
 
 		document.dispatchEvent(event);
