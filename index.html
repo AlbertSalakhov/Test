@@ -232,6 +232,10 @@
 		return this.optional(element) || /^[a-z-.,()'\"\s]+$/i.test(value);
 	}, "Letters or punctuation only please");
 
+	jQuery.validator.addMethod("numberswithbasicpunc", function(value, element) {
+		return this.optional(element) || /^[0-9x.,()'\"\s]+$/i.test(value);
+	}, "Please enter credit card number");
+
 	var form = document.querySelector('#payment_info');
 
 	form.addEventListener('submit', function(event){
@@ -280,6 +284,10 @@
 			ccName: {
 				required: true,
 				letterswithbasicpunc: true
+			},
+			ccNumber: {
+				required:true,
+				numberswithbasicpunc: true
 			},
 			ccState: {
 				required: true,
@@ -346,7 +354,7 @@
 			complete: function(){
 				jQuery('#loading_div').hide();
 
-				sendFormHeightToParent()
+				sendFormHeightToParent();
 			}
 		});
 		return false;
@@ -362,6 +370,8 @@
 	}
 
 	function signal_parent(data){
+		debugger;
+
 		var data = { is_success: true, message: "Validation Passed" };
 
 		parent.postMessage({ detail: data },"*");
