@@ -333,6 +333,8 @@
 				{
 					jQuery('#img_ok').show();
 					jQuery('#success_info').text("Information validated successfully");
+
+					jQuery('#loading_div').hide();
 					signal_parent(json);
 				}
 				else {
@@ -344,6 +346,8 @@
 					});
 					jQuery('#error_message').show();
 					jQuery('#validate_payment').show();
+
+					jQuery('#loading_div').hide();
 					signal_parent(json);
 				}
 			},
@@ -355,6 +359,8 @@
 				append_error(lu, "Internal Error Occured")
 				jQuery('#error_message').show();
 				jQuery('#validate_payment').show();
+
+				jQuery('#loading_div').hide();
 				signal_parent({errors:1,detail:["Internal Failure"]});
 			},
 			complete: function(){
