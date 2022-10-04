@@ -370,10 +370,10 @@
 	}
 
 	function signal_parent(data){
-		debugger;
-
 		var data = { is_success: true, message: "Validation Passed" };
 
+
+		console.log(data);
 		parent.postMessage({ detail: data },"*");
 
 		// if(data.errors == 0){
