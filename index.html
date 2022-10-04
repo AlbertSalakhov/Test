@@ -392,8 +392,6 @@
 			var event = new CustomEvent('checkout-bequick-error', {detail: data});
 		}
 
-		var data = { is_success: true, message: "Validation Passed" };
-
 		if(window.parent) {
 			parent.postMessage({ detail: data,  formOuterHeight: jQuery(form).outerHeight() + 20},"*");
 		}
