@@ -226,6 +226,10 @@
 </form>
 
 <SCRIPT type="text/javascript" LANGUAGE="JavaScript">
+	var wasTryOfSubmittAtLeastOnce = false;
+
+	var form = document.querySelector('#payment_info');
+
 	jQuery('#img_ok').hide();
 
 	jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
@@ -233,14 +237,14 @@
 	}, "Letters or punctuation only please");
 
 	jQuery.validator.addMethod("numberswithbasicpunc", function(value, element) {
-		return this.optional(element) || /^[0-9x.,()'\"\s]+$/i.test(value);
+		return this.optional(element) || /^[0-9x.,\-()'\"\s]+$/i.test(value);
 	}, "Please enter credit card number");
-
-	var form = document.querySelector('#payment_info');
 
 	form.addEventListener('submit', function(event){
 		event.preventDefault();
 		event.stopPropagation();
+
+		wasTryOfSubmittAtLeastOnce = true;
 
 		if ($(form).valid()) {
 			$('#validate_payment').prop('disabled', false);
@@ -272,6 +276,10 @@
 	});
 
 	$('#payment_info input').on('blur keyup', function() {
+		if(!wasTryOfSubmittAtLeastOnce) {
+			return false;
+		}
+
 		if ($(form).valid()) {
 			$('#validate_payment').prop('disabled', false);
 		} else {
@@ -311,8 +319,6 @@
 		clear_errors();
 
 		var params = jQuery('#payment_info').serialize();
-
-		// sendFormHeightToParent();
 
 		jQuery.ajax({
 			'url': '/oss/web/customercare/paymentcapture',
@@ -379,10 +385,6 @@
 
 			var event = new CustomEvent('checkout-bequick-error', {detail: data});
 		}
-
-
-		var data = { is_success: true, message: "Validation Passed" };
-
 
 		if(window.parent) {
 			parent.postMessage({ detail: data,  formOuterHeight: jQuery(form).outerHeight() + 20},"*");
