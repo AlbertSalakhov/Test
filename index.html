@@ -251,7 +251,7 @@
 		}
 
 		if(e.data.submitValue){
-			// $(form).valid()
+			onSubmitHandler();
 		}
 	});
 
@@ -259,6 +259,10 @@
 		event.preventDefault();
 		event.stopPropagation();
 
+		onSubmitHandler();
+	});
+
+	function onSubmitHandler(){
 		wasTryOfSubmittAtLeastOnce = true;
 
 		if ($(form).valid()) {
@@ -270,7 +274,7 @@
 		}
 
 		process_data();
-	});
+	}
 
 	jQuery.validator.setDefaults({
 		errorElement: 'span',
