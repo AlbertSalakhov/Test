@@ -250,7 +250,7 @@
 
 		if(e.data.submitValue){
 			if(window.parent && !$(form).valid()) {
-				parent.postMessage({ detail: data,  isFormValid: $(form).valid()},"*");
+				parent.postMessage({ isFormValid: $(form).valid()},"*");
 			}
 
 			onSubmitHandler();
