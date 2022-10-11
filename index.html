@@ -248,7 +248,7 @@
 			$('#validate_payment').addClass('-never-show');
 		}
 
-		if(e.data.submitValue){
+		if(e.data.submitValue !== undefined){
 			if(window.parent && !$(form).valid()) {
 				parent.postMessage({ isFormValid: $(form).valid()},"*");
 			}
