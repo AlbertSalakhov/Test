@@ -245,7 +245,7 @@
 		return this.optional(element) || /^[0-9x.,\-()'\"\s]+$/i.test(value);
 	}, "Please enter credit card number");
 
-	window.addEventListener("message", function () {
+	window.addEventListener("message", function (e) {
 		debugger;
 
 		console.log('MSGTEST')
