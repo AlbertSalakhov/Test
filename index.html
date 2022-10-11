@@ -34,7 +34,6 @@
 		color: white;
 		width: 100%;
 		max-width: 400px;
-		margin-top: 0.5em;
 		font-weight: 500;
 		padding: 8px;
 		align-self: center;
@@ -109,7 +108,11 @@
 	}
 
 	.form-interface-wrapper {
-		min-height: 70px;
+		min-height: 48px;
+	}
+
+	.-never-show {
+		display: none !important;
 	}
 </style>
 
@@ -211,8 +214,8 @@
 			</div>
 		</div>
 
-		<div class="mb-2 justify-content-center align-content-center d-flex flex-column form-interface-wrapper">
-			<button type="submit" id="validate_payment"  class="btn btn-primary mb-2">Place Order</button>
+		<div class="justify-content-center align-content-center d-flex flex-column form-interface-wrapper">
+			<button type="submit" id="validate_payment"  class="btn btn-primary">Place Order</button>
 			<div class="loading_div" id="loading_div" style="display:none;">
 				<img src="/images/ajax-loader-transparent.gif">
 				<span>Validating Payment information...</span>
@@ -239,6 +242,8 @@
 	jQuery.validator.addMethod("numberswithbasicpunc", function(value, element) {
 		return this.optional(element) || /^[0-9x.,\-()'\"\s]+$/i.test(value);
 	}, "Please enter credit card number");
+
+	window.addEventListener("message", handlePostMessageFromParent, false);
 
 	form.addEventListener('submit', function(event){
 		event.preventDefault();
@@ -413,4 +418,13 @@
 		};
 	}
 
+	function handlePostMessageFromParent(e){
+		if(e.data.iframeInited){
+			$('#validate_payment').addClass('-never-show');
+		}
+
+		if(e.data.submitValue){
+
+		}
+	}
 </SCRIPT>
