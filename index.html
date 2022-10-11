@@ -245,7 +245,19 @@
 		return this.optional(element) || /^[0-9x.,\-()'\"\s]+$/i.test(value);
 	}, "Please enter credit card number");
 
-	window.addEventListener("message", handlePostMessageFromParent, false);
+	window.addEventListener("message", function () {
+		debugger;
+
+		console.log('MSGTEST')
+
+		if(e.data.iframeInited){
+			$('#validate_payment').addClass('-never-show');
+		}
+
+		if(e.data.submitValue){
+			// $(form).valid()
+		}
+	});
 
 	form.addEventListener('submit', function(event){
 		event.preventDefault();
