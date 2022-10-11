@@ -231,8 +231,6 @@
 <SCRIPT type="text/javascript" LANGUAGE="JavaScript">
 	var wasTryOfSubmittAtLeastOnce = false;
 
-	console.log('IFRAME TEST');
-
 	var form = document.querySelector('#payment_info');
 
 	jQuery('#img_ok').hide();
@@ -251,6 +249,10 @@
 		}
 
 		if(e.data.submitValue){
+			if(window.parent && !$(form).valid()) {
+				parent.postMessage({ detail: data,  isFormValid: $(form).valid()},"*");
+			}
+
 			onSubmitHandler();
 		}
 	});
