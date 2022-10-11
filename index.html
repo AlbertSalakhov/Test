@@ -35,10 +35,10 @@
 		width: 100%;
 		max-width: 400px;
 		font-weight: 500;
-		padding: 4px;
+		padding: 2px;
 		align-self: center;
 		border-radius: 0;
-		font-size: 20px;
+		font-size: 18px;
 	}
 
 	#payment_info .btn-primary:hover,
@@ -108,7 +108,7 @@
 	}
 
 	.form-interface-wrapper {
-		min-height: 40px;
+		min-height: 33px;
 	}
 
 	.-never-show {
@@ -246,10 +246,6 @@
 	}, "Please enter credit card number");
 
 	window.addEventListener("message", function (e) {
-		debugger;
-
-		console.log('MSGTEST')
-
 		if(e.data.iframeInited){
 			$('#validate_payment').addClass('-never-show');
 		}
@@ -430,17 +426,5 @@
 			if(timer) clearTimeout(timer);
 			timer = setTimeout(func,400,event);
 		};
-	}
-
-	function handlePostMessageFromParent(e){
-		debugger;
-
-		if(e.data.iframeInited){
-			$('#validate_payment').addClass('-never-show');
-		}
-
-		if(e.data.submitValue){
-			// $(form).valid()
-		}
 	}
 </SCRIPT>
