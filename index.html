@@ -265,12 +265,6 @@
 	</div>
 </form>
 
-
-<select id="language">
-	<option value="en">English</option>
-	<option value="es">Spanish</option>
-</select>
-
 <SCRIPT type="text/javascript" LANGUAGE="JavaScript">
 	var wasTryOfSubmittAtLeastOnce = false;
 
@@ -365,32 +359,6 @@
 			console.error(e)
 		}
 	}
-
-	$('#language').on('change', function() {
-		try{
-			var languageCode = $(this).val();
-			var validationLanguageObject = validationsTranslations[languageCode]
-
-			$('.js-label:not(.js-label-'+languageCode+')').hide();
-			$('.js-label-'+languageCode).show();
-
-			Object.keys(placeholderTranslations).forEach(function (fieldName) {
-				var newPlaceholderText=placeholderTranslations[fieldName][languageCode];
-
-				$('#'+fieldName).attr("placeholder", newPlaceholderText);
-			})
-
-			if(Object.keys(validationLanguageObject).length>0){
-				$.extend($.validator.messages, validationLanguageObject);
-
-				if(wasTryOfSubmittAtLeastOnce){
-					$(form).valid();
-				}
-			}
-		} catch (e){
-			console.error(e)
-		}
-	});
 
 	$.validator.addMethod("CCExp", function(value, element, params) {
 		var minMonth = new Date().getMonth()+1;
