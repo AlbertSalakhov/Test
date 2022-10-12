@@ -415,6 +415,10 @@
 			$('#error_message').addClass('-never-show');
 		}
 
+		if(e.data.idOfLanguage) {
+			applyLanguage(idOfLanguage);
+		}
+
 		if(e.data.submitValue !== undefined){
 			if(window.parent && !$(form).valid()) {
 				parent.postMessage({ isFormValid: $(form).valid()},"*");
