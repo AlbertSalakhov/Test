@@ -1,7 +1,6 @@
 <!-- BQ-WEB-268CreditCardPayment.html -->
 <!DOCTYPE html>
-<html>
-<meta charset="utf-8">
+<html lang="en">
 <link rel="stylesheet" type="text/css" media="screen" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -15,6 +14,8 @@
 		background-color:inherit;
 		font-family: sans-serif;
 		font-weight: 400;
+		margin-left: 5px;
+		margin-right: 5px;
 	}
 
 	::placeholder{
@@ -115,9 +116,59 @@
 	.-never-show {
 		display: none !important;
 	}
+
+
+	/*when in OEP form*/
+
+	.form-in-oep {
+		margin-bottom: 0;
+	}
+	.form-in-oep .form-group {
+		position: relative;
+		margin-bottom: 0;
+		padding-bottom: 18px;
+	}
+	.form-in-oep .form-group label {
+		position: absolute;
+		z-index: 2;
+		font-size: 12px;
+		top: 8px;
+		left: 15px;
+		pointer-events: none;
+	}
+	.form-in-oep .form-row>[class*=col-] label {
+		left: 20px;
+	}
+	.form-in-oep .form-control {
+		min-height: 65px;
+		border-radius: 8px;
+		padding-top: 20px;
+		padding-bottom: 0;
+		font-size: 1.125rem;
+	}
+	.form-in-oep .form-control {
+		margin-top: 0;
+	}
+	.form-in-oep .error.invalid-feedback {
+		bottom: 2px;
+	}
+	body .form-in-oep#payment_info .form-control {
+		background-image: none;
+	}
+	body .form-in-oep#payment_info select.form-control {
+		background: url(data:image/svg+xml;
+		base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTYuMzU0IDUuODU0YS41LjUgMCAwMS0uNzA4IDBsLTUtNWEuNS41IDAgMDEuNzA4LS43MDhMNiA0Ljc5MyAxMC42NDYuMTQ2YS41LjUgMCAwMS43MDguNzA4bC01IDV6IiBmaWxsPSIjMUQxRjIwIi8+PC9zdmc+) no-repeat;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		padding-left: 14px;
+		background-size: 13px auto;
+		background-position: center right 12px;
+	}
+
 </style>
 
-<FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate>
+<FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate class="form-in-oep">
 	<INPUT TYPE="HIDDEN" NAME="action" VALUE="paymentcapture">
 	<INPUT TYPE="HIDDEN" NAME="do" VALUE="payment_validate">
 	<INPUT TYPE="HIDDEN" NAME="process" VALUE="1">
@@ -131,10 +182,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="ccNumber" class="required-label">
-				<span class="js-label js-label-en">Credit Card Number</span>
-				<span class="js-label js-label-es">Número de tarjeta de crédito</span>
-			</label>
+			<label for="ccNumber" class="required-label">Credit Card Number</label>
 
 			<input type="text" id="ccNumber" name="ccNumber" class="form-control" maxlength="16" inputmode="numeric"
 				   placeholder="Credit Card Number" value='%ccNumber%' required>
@@ -142,19 +190,13 @@
 
 		<div class="form-row">
 			<div class="form-group col-sm-6 d-flex flex-column form-group justify-content-end">
-				<label for="ccName" class="required-label">
-					<span class="js-label js-label-en">Name exactly as it appears on your credit card</span>
-					<span class="js-label js-label-es">Nombre exactamente como aparece en su tarjeta de crédito.</span>
-				</label>
+				<label for="ccName" class="required-label">Name exactly as it appears on your credit card</label>
 
 				<input type="text" id="ccName" name="ccName" class="form-control" placeholder="Name on Credit Card" value="%ccName%" required>
 			</div>
 
 			<div class="form-group col-sm-6 d-flex flex-column form-group justify-content-end">
-				<label for="ccType" class="required-label">
-					<span class="js-label js-label-en">Credit Card Type</span>
-					<span class="js-label js-label-es">Tipo de tarjeta de crédito</span>
-				</label>
+				<label for="ccType" class="required-label">Credit Card Type</label>
 
 				<select id="ccType" name="ccType" class="form-control" required>
 					<TMPL_LOOP CC_LOOP><option VALUE="%TYPE%" %SELECTED%>%NAME%</option></TMPL_LOOP>
@@ -164,20 +206,14 @@
 
 		<div class="form-row">
 			<div class="form-group col-sm-6">
-				<label for="ccExpMM" class="required-label">
-					<span class="js-label js-label-en">Card Expiration Month</span>
-					<span class="js-label js-label-es">Fecha de vencimiento de la tarjeta</span>
-				</label>
+				<label for="ccExpMM" class="required-label">Card Expiration Month</label>
 
 				<select id="ccExpMM" name="ccExpMM" class="form-control sm " placeholder="Exp. Month" required>
 					<TMPL_LOOP CC_EXP_MM_LOOP><option value="%MONTH%" %SELECTED%>%MONTH%</TMPL_LOOP CC_EXP_MM_LOOP>
 				</select>
 			</div>
 			<div class="form-group col-sm-6">
-				<label for="ccExpYY" class="required-label">
-					<span class="js-label js-label-en">Card Expiration Year</span>
-					<span class="js-label js-label-es">Fecha de vencimiento de la tarjeta</span>
-				</label>
+				<label for="ccExpYY" class="required-label">Card Expiration Year</label>
 
 				<select name="ccExpYY" id="ccExpYY" class="form-control sm" placeholder="Year" required>
 					<TMPL_LOOP CC_EXP_YY_LOOP><option value="%YEAR%" %SELECTED%>%YEAR%</TMPL_LOOP CC_EXP_YY_LOOP>
@@ -186,82 +222,67 @@
 		</div>
 
 		<div class="form-group">
-			<label for="ccCVC" class="required-label">
-				<span class="js-label js-label-en">CC CVV</span>
-				<span class="js-label js-label-es">CC CVV</span>
-			</label>
+			<label for="ccCVC" class="required-label">CC CVV</label>
 
-			<input type="text" class="form-control" id="ccCVC" name="ccCVC" size="5" maxlength="5" value='%ccCVC%' required>
+			<input type="password" class="form-control" id="ccCVC" name="ccCVC" size="5" minlength="3" maxlength="5" value='%ccCVC%' required>
 		</div>
 
 		<TMPL_IF OFFER_AUTOPAY>
 			<div class="form-check mb-3">
 				<input class="form-check-input" type="checkbox" name="ccForAutopay" id="ccForAutopay" <TMPL_IF ccForAutopay>checked="1"</TMPL_IF>>
-				<label class="form-check-label align-content-center" for="ccForAutopay">
-					<span class="js-label js-label-en">Save this card</span>
-					<span class="js-label js-label-es">Save this card</span>
-				</label>
+				<label class="form-check-label align-content-center" for="ccForAutopay">Save this card</label>
 			</div>
 		</TMPL_IF>
 
 		<div class="form-group">
-			<label for="ccAddress" class="required-label">
-				<span class="js-label js-label-en">Billing Street Address (No P.O. Box)</span>
-				<span class="js-label js-label-es">Dirección de la calle de cobro</span>
-			</label>
+			<label for="ccAddress" class="required-label">Billing Street Address</label>
 
-			<input type="text" id="ccAddress" name="ccAddress" class="form-control" value="%ccAddress%" required>
+			<input type="text" id="ccAddress" name="ccAddress" class="form-control" placeholder="Billing Address" value="%ccAddress%" required>
 		</div>
 
 		<div class="form-row">
 			<div class="form-group col-sm-6">
-				<label for="ccAddress2">
-					<span class="js-label js-label-en">Apartment or Unit Number</span>
-					<span class="js-label js-label-es">Número de Unidad o Apartamento</span>
-				</label>
-				<input type="text" id="ccAddress2" name="ccAddress2" class="form-control" value="%ccAddress2%">
+				<label for="ccAddress2">Apartment or Unit Number</label>
+				<input type="text" id="ccAddress2" name="ccAddress2" class="form-control" placeholder="Apt/Suite #" value="%ccAddress2%">
 			</div>
 
 			<div class="form-group col-sm-6">
-				<label for="ccCity" class="required-label">
-					<span class="js-label js-label-en">City</span>
-					<span class="js-label js-label-es">Ciudad</span>
-				</label>
-				<input type="text" id="ccCity" name="ccCity" class="form-control" value="%ccCity%" required>
+				<label for="ccCity" class="required-label">City</label>
+				<input type="text" id="ccCity" name="ccCity" class="form-control" placeholder="City" value="%ccCity%" required>
 			</div>
 		</div>
 
 		<div class="form-row">
 			<div class="form-group col-sm-6">
-				<label for="ccZip" class="required-label">
-					<span class="js-label js-label-en">Zip Code</span>
-					<span class="js-label js-label-es">Código postal</span>
-				</label>
+				<label for="ccZip" class="required-label">Zip Code</label>
 
-				<input type="text" id="ccZip" name="ccZip" size="5" minlength="5" maxlength="5" class="form-control" value="%ccZip%" required>
+				<input type="text" id="ccZip" name="ccZip" size="5" minlength="5" maxlength="5" class="form-control" placeholder="Zip" value="%ccZip%" required>
 			</div>
 
 			<div class="form-group col-sm-6">
-				<label for="ccState" class="required-label">
-					<span class="js-label js-label-en">State</span>
-					<span class="js-label js-label-es">Estado</span>
-				</label>
+				<label for="ccStateSelect" class="required-label">State</label>
 
-				<input type="text" id="ccState" name="ccState" size="2" maxlength="2" class="form-control" value="%ccState%" required>
+				<input type="hidden" id="ccState" name="ccState" class="form-control" placeholder="State" value="%ccState%">
+
+				<!--				this select is not submitted - it just acts as control for hidden ccState input. When select value is changed ccState value is changed also. And vice versa.-->
+				<select id="ccStateSelect" class="form-control sm" required>
+
+				</select>
 			</div>
 		</div>
+	</div>
 
-		<div class="justify-content-center align-content-center d-flex flex-column form-interface-wrapper">
-			<button type="submit" id="validate_payment"  class="btn btn-primary">Place Order</button>
-			<div class="loading_div" id="loading_div" style="display:none;">
-				<img src="/images/ajax-loader-transparent.gif">
-				<span>Validating Payment information...</span>
-			</div>
-			<div class="form-check success-wrapper">
-				<img src="/images/check_medium.png" id="img_ok" class="img-fluid align-content-center">
-				<span class="text-success" id="success_info"></span>
-			</div>
+	<div class="justify-content-center align-content-center d-flex flex-column form-interface-wrapper">
+		<button type="submit" id="validate_payment"  class="btn btn-primary">Place Order</button>
+		<div class="loading_div" id="loading_div" style="display:none;">
+			<img src="/images/ajax-loader-transparent.gif">
+			<span>Validating Payment information...</span>
 		</div>
+		<div class="form-check success-wrapper">
+			<img src="/images/check_medium.png" id="img_ok" class="img-fluid align-content-center">
+			<span class="text-success" id="success_info"></span>
+		</div>
+	</div>
 	</div>
 </form>
 
@@ -279,86 +300,6 @@
 	jQuery.validator.addMethod("numberswithbasicpunc", function(value, element) {
 		return this.optional(element) || /^[0-9x.,\-()'\"\s]+$/i.test(value);
 	}, "Please enter credit card number");
-
-	var validationsTranslations= {
-		en: {
-			required: "This field is required.",
-			remote: "Please fix this field.",
-			email: "Please enter a valid email address.",
-			url: "Please enter a valid URL.",
-			date: "Please enter a valid date.",
-			dateISO: "Please enter a valid date ( ISO ).",
-			number: "Please enter a valid number.",
-			digits: "Please enter only digits.",
-			equalTo: "Please enter the same value again.",
-			maxlength: $.validator.format("Please enter no more than {0} characters."),
-			minlength: $.validator.format("Please enter at least {0} characters."),
-			rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
-			range: $.validator.format("Please enter a value between {0} and {1}."),
-			max: $.validator.format("Please enter a value less than or equal to {0}."),
-			min: $.validator.format("Please enter a value greater than or equal to {0}."),
-			letterswithbasicpunc:"Letters or punctuation only please",
-			numberswithbasicpunc: "Please enter credit card number",
-			CCExp: "Invalid Expiration Date"
-		},
-		es: {
-			required: "Este campo es obligatorio.",
-			remote: "Por favor, rellena este campo.",
-			email: "Por favor, escribe una dirección de correo válida.",
-			url: "Por favor, escribe una URL válida.",
-			date: "Por favor, escribe una fecha válida.",
-			dateISO: "Por favor, escribe una fecha (ISO) válida.",
-			number: "Por favor, escribe un número válido.",
-			digits: "Por favor, escribe sólo dígitos.",
-			equalTo: "Por favor, escribe el mismo valor de nuevo.",
-			maxlength: $.validator.format( "Por favor, no escribas más de {0} caracteres." ),
-			minlength: $.validator.format( "Por favor, no escribas menos de {0} caracteres." ),
-			rangelength: $.validator.format( "Por favor, escribe un valor entre {0} y {1} caracteres." ),
-			range: $.validator.format( "Por favor, escribe un valor entre {0} y {1}." ),
-			max: $.validator.format( "Por favor, escribe un valor menor o igual a {0}." ),
-			min: $.validator.format( "Por favor, escribe un valor mayor o igual a {0}." ),
-			// todo
-			letterswithbasicpunc:"Letters or punctuation only please",
-			numberswithbasicpunc: "Please enter credit card number",
-			CCExp: "Invalid Expiration Date"
-		}
-	}
-
-	var placeholderTranslations = {
-		ccNumber: {
-			en:"Credit Card Number",
-			es: "Número de tarjeta de crédito",
-		},
-		ccName: {
-			en: "Name on Credit Card",
-			es: "Su nombre en tarjeta de crédito",
-		},
-	}
-
-	function applyLanguage(languageCode){
-		try{
-			var validationLanguageObject = validationsTranslations[languageCode]
-
-			$('.js-label:not(.js-label-'+languageCode+')').hide();
-			$('.js-label-'+languageCode).show();
-
-			Object.keys(placeholderTranslations).forEach(function (fieldName) {
-				var newPlaceholderText=placeholderTranslations[fieldName][languageCode];
-
-				$('#'+fieldName).attr("placeholder", newPlaceholderText);
-			})
-
-			if(Object.keys(validationLanguageObject).length>0){
-				$.extend($.validator.messages, validationLanguageObject);
-
-				if(wasTryOfSubmittAtLeastOnce){
-					$(form).valid();
-				}
-			}
-		} catch (e){
-			console.error(e)
-		}
-	}
 
 	$.validator.addMethod("CCExp", function(value, element, params) {
 		var minMonth = new Date().getMonth()+1;
@@ -381,10 +322,6 @@
 		if(e.data.iframeInited){
 			$('#validate_payment').addClass('-never-show');
 			$('#error_message').addClass('-never-show');
-		}
-
-		if(e.data.idOfLanguage) {
-			applyLanguage(e.data.idOfLanguage);
 		}
 
 		if(e.data.submitValue !== undefined){
@@ -466,10 +403,6 @@
 			ccNumber: {
 				required:true,
 				numberswithbasicpunc: true
-			},
-			ccState: {
-				required: true,
-				letterswithbasicpunc: true
 			},
 			ccCVC: {
 				required: true,
@@ -598,5 +531,274 @@
 		};
 	}
 
-	applyLanguage('en');
+	var statesArr = getUSStates();
+	var statesOptionsHtmlString = '<option value="">Select State</option>';
+
+	statesArr.forEach(function (stateObj) {
+		var stateLabel = stateObj['label'];
+		var stateVal = stateObj['value'];
+
+		var preSelectedState = $('#ccState').val();
+
+		var isSelectedOption = preSelectedState.toUpperCase() === stateVal.toUpperCase();
+
+		var optionStartString = isSelectedOption ? '<option selected="true" value="' : '<option value="';
+
+		statesOptionsHtmlString += optionStartString +stateVal+'">'+stateLabel+'</option>';
+	});
+
+	$('#ccStateSelect').html(statesOptionsHtmlString);
+
+	$('#ccStateSelect').on('change', function () {
+		var selectedVal = $(this).find(":selected").val()
+
+		if(!window.stateValWasChanged){
+			$('#ccState').val(selectedVal);
+		} else {
+			window.stateValWasChanged = false;
+		}
+	});
+
+	$('#ccState').on('change', function () {
+		setStateSelectVal($("#ccState").val().toUpperCase());
+	});
+
+	//if value property of hidden ccState input was changed programmatically we also need to update ccStateSelect value
+	const stateInput = document.querySelector("#ccState");
+	const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value");
+	Object.defineProperty(stateInput, "value", {
+		get: desc.get,
+		set: function(newValue) {
+			window.stateValWasChanged = true;
+
+			setStateSelectVal(newValue.toUpperCase());
+
+			console.log("setting programmatically", newValue);
+			desc.set.call(this, newValue);
+		}
+	});
+
+	function setStateSelectVal(newStateVal){
+		if($('#ccStateSelect option[value="'+newStateVal+'"]').length>0) {
+			$('#ccStateSelect').val(newStateVal).change();
+		}
+	}
+
+	function getUSStates() {
+		return [
+			{
+				'label': 'Alabama',
+				'value': 'AL',
+			},
+			{
+				'label': 'Alaska',
+				'value': 'AK',
+			},
+			{
+				'label': 'Arizona',
+				'value': 'AZ',
+			},
+			{
+				'label': 'Arkansas',
+				'value': 'AR',
+			},
+			{
+				'label': 'California',
+				'value': 'CA',
+			},
+			{
+				'label': 'Colorado',
+				'value': 'CO',
+			},
+			{
+				'label': 'Connecticut',
+				'value': 'CT',
+			},
+			{
+				'label': 'Delaware',
+				'value': 'DE',
+			},
+			{
+				'label': 'District of Columbia',
+				'value': 'DC',
+			},
+			{
+				'label': 'Florida',
+				'value': 'FL',
+			},
+			{
+				'label': 'Georgia',
+				'value': 'GA',
+			},
+			{
+				'label': 'Hawaii',
+				'value': 'HI',
+			},
+			{
+				'label': 'Idaho',
+				'value': 'ID',
+			},
+			{
+				'label': 'Illinois',
+				'value': 'IL',
+			},
+			{
+				'label': 'Indiana',
+				'value': 'IN',
+			},
+			{
+				'label': 'Iowa',
+				'value': 'IA',
+			},
+			{
+				'label': 'Kansas',
+				'value': 'KS',
+			},
+			{
+				'label': 'Kentucky',
+				'value': 'KY',
+			},
+			{
+				'label': 'Louisiana',
+				'value': 'LA',
+			},
+			{
+				'label': 'Maine',
+				'value': 'ME',
+			},
+			{
+				'label': 'Montana',
+				'value': 'MT',
+			},
+			{
+				'label': 'Nebraska',
+				'value': 'NE',
+			},
+			{
+				'label': 'Nevada',
+				'value': 'NV',
+			},
+			{
+				'label': 'New Hampshire',
+				'value': 'NH',
+			},
+			{
+				'label': 'New Jersey',
+				'value': 'NJ',
+			},
+			{
+				'label': 'New Mexico',
+				'value': 'NM',
+			},
+			{
+				'label': 'New York',
+				'value': 'NY',
+			},
+			{
+				'label': 'North Carolina',
+				'value': 'NC',
+			},
+			{
+				'label': 'North Dakota',
+				'value': 'ND',
+			},
+			{
+				'label': 'Ohio',
+				'value': 'OH',
+			},
+			{
+				'label': 'Oklahoma',
+				'value': 'OK',
+			},
+			{
+				'label': 'Oregon',
+				'value': 'OR',
+			},
+			{
+				'label': 'Maryland',
+				'value': 'MD',
+			},
+			{
+				'label': 'Massachusetts',
+				'value': 'MA',
+			},
+			{
+				'label': 'Michigan',
+				'value': 'MI',
+			},
+			{
+				'label': 'Minnesota',
+				'value': 'MN',
+			},
+			{
+				'label': 'Mississippi',
+				'value': 'MS',
+			},
+			{
+				'label': 'Missouri',
+				'value': 'MO',
+			},
+			{
+				'label': 'Pennsylvania',
+				'value': 'PA',
+			},
+			{
+				'label': 'Puerto Rico',
+				'value': 'PR',
+			},
+			{
+				'label': 'Rhode Island',
+				'value': 'RI',
+			},
+			{
+				'label': 'South Carolina',
+				'value': 'SC',
+			},
+			{
+				'label': 'South Dakota',
+				'value': 'SD',
+			},
+			{
+				'label': 'Tennessee',
+				'value': 'TN',
+			},
+			{
+				'label': 'Texas',
+				'value': 'TX',
+			},
+			{
+				'label': 'Utah',
+				'value': 'UT',
+			},
+			{
+				'label': 'Vermont',
+				'value': 'VT',
+			},
+			{
+				'label': 'Virginia',
+				'value': 'VA',
+			},
+			{
+				"label": "U.S. Virgin Islands",
+				"value": "VI"
+			},
+			{
+				'label': 'Washington',
+				'value': 'WA',
+			},
+			{
+				'label': 'West Virginia',
+				'value': 'WV',
+			},
+			{
+				'label': 'Wisconsin',
+				'value': 'WI',
+			},
+			{
+				'label': 'Wyoming',
+				'value': 'WY',
+			},
+		];
+	}
+
 </SCRIPT>
