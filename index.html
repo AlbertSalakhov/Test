@@ -150,12 +150,16 @@
 	.form-in-oep .error.invalid-feedback {
 		bottom: 2px;
 	}
+
+	.form-in-oep .form-interface-wrapper {
+		display: none;
+	}
+
 	body .form-in-oep#payment_info .form-control {
 		background-image: none;
 	}
 	body .form-in-oep#payment_info select.form-control {
-		background: url(data:image/svg+xml;
-		base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTYuMzU0IDUuODU0YS41LjUgMCAwMS0uNzA4IDBsLTUtNWEuNS41IDAgMDEuNzA4LS43MDhMNiA0Ljc5MyAxMC42NDYuMTQ2YS41LjUgMCAwMS43MDguNzA4bC01IDV6IiBmaWxsPSIjMUQxRjIwIi8+PC9zdmc+) no-repeat;
+		background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTYuMzU0IDUuODU0YS41LjUgMCAwMS0uNzA4IDBsLTUtNWEuNS41IDAgMDEuNzA4LS43MDhMNiA0Ljc5MyAxMC42NDYuMTQ2YS41LjUgMCAwMS43MDguNzA4bC01IDV6IiBmaWxsPSIjMUQxRjIwIi8+PC9zdmc+) no-repeat;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
@@ -163,10 +167,9 @@
 		background-size: 13px auto;
 		background-position: center right 12px;
 	}
-
 </style>
 
-<FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate class="form-in-oep">
+<FORM ACTION="paymentcapture" id="payment_info" METHOD="POST" novalidate>
 	<INPUT TYPE="HIDDEN" NAME="action" VALUE="paymentcapture">
 	<INPUT TYPE="HIDDEN" NAME="do" VALUE="payment_validate">
 	<INPUT TYPE="HIDDEN" NAME="process" VALUE="1">
@@ -285,11 +288,15 @@
 </form>
 
 <SCRIPT type="text/javascript" LANGUAGE="JavaScript">
+	var isFormInOepFlag = window.location.search.indexOf("bequickform=true") !== -1;
+
+	if(isFormInOepFlag) {
+		jQuery("#payment_info").addClass('form-in-oep');
+	}
+
 	var wasTryOfSubmittAtLeastOnce = false;
 
 	var form = document.querySelector('#payment_info');
-
-	console.log(window.location);
 
 	jQuery('#img_ok').hide();
 
@@ -436,7 +443,9 @@
 		jQuery('#error_message').hide();
 		clear_errors();
 
-		// signal_parent(json);
+		if(isFormInOepFlag){
+			sendFormHeightToParent();
+		}
 
 		var params = jQuery('#payment_info').serialize();
 
@@ -802,5 +811,4 @@
 			},
 		];
 	}
-
 </SCRIPT>
