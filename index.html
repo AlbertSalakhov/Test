@@ -14,8 +14,6 @@
 		background-color:inherit;
 		font-family: sans-serif;
 		font-weight: 400;
-		margin-left: 5px;
-		margin-right: 5px;
 	}
 
 	::placeholder{
@@ -291,6 +289,8 @@
 
 	var form = document.querySelector('#payment_info');
 
+	console.log(window.location);
+
 	jQuery('#img_ok').hide();
 
 	jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
@@ -435,6 +435,8 @@
 		jQuery('#loading_div').show();
 		jQuery('#error_message').hide();
 		clear_errors();
+
+		// signal_parent(json);
 
 		var params = jQuery('#payment_info').serialize();
 
