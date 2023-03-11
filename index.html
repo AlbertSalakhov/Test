@@ -333,15 +333,15 @@
 <SCRIPT type="text/javascript" LANGUAGE="JavaScript">
 	var isFormInOepFlag = window.location.search.indexOf("bequickform=true") !== -1;
 
-	if(isFormInOepFlag) {
-		jQuery("#payment_info").addClass('form-in-oep');
-	}
-
 	var wasTryOfSubmittAtLeastOnce = false;
 
 	var form = document.querySelector('#payment_info');
 
 	jQuery('#img_ok').hide();
+
+	if(isFormInOepFlag) {
+		jQuery("#payment_info").addClass('form-in-oep');
+	}
 
 	jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
 		return this.optional(element) || /^[a-z-.,()'\"\s]+$/i.test(value);
