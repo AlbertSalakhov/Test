@@ -131,7 +131,11 @@
 	.-only-in-oep {
 		display: none;
 	}
-
+	hr {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		border-top-width: 2px;
+	}
 
 	/*when in OEP form*/
 
@@ -164,11 +168,11 @@
 		z-index: 2;
 		font-size: 12px;
 		top: 8px;
-		left: 15px;
+		left: 13px;
 		pointer-events: none;
 	}
 	.form-in-oep .form-row>[class*=col-] label {
-		left: 20px;
+		left: 18px;
 	}
 	.form-in-oep .form-control {
 		min-height: 65px;
@@ -269,6 +273,8 @@
 				<label class="form-check-label align-content-center" for="ccForAutopay">Save this card</label>
 			</div>
 		</TMPL_IF>
+
+		<hr class="-only-in-oep" />
 
 		<h2 class="-only-in-oep">Billing address <span>*</span></h2>
 
