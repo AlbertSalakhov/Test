@@ -128,6 +128,9 @@
 	.-never-show {
 		display: none !important;
 	}
+	.-only-in-oep {
+		display: none;
+	}
 
 
 	/*when in OEP form*/
@@ -137,8 +140,10 @@
 	}
 	.form-in-oep {
 		font-family: "Mundial", Helvetica, Arial, sans-serif;
-		color: #333;
 		font-weight: 400;
+	}
+	.form-in-oep .-only-in-oep {
+		display: block;
 	}
 	.form-in-oep h2 {
 		font-size: 20px;
@@ -210,7 +215,7 @@
 			<span class="text-danger" id="error_message"></span>
 		</div>
 
-		<h2>Billing information <span>*</span></h2>
+		<h2 class="-only-in-oep">Billing information <span>*</span></h2>
 
 		<div class="form-group">
 			<label for="ccNumber" class="required-label">Credit Card Number</label>
@@ -265,7 +270,7 @@
 			</div>
 		</TMPL_IF>
 
-		<h2>Billing address <span>*</span></h2>
+		<h2 class="-only-in-oep">Billing address <span>*</span></h2>
 
 		<div class="form-group">
 			<label for="ccAddress" class="required-label">Billing Street Address</label>
