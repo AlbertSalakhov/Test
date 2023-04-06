@@ -311,8 +311,8 @@
 		<hr class="-only-in-oep" />
 
 		<h2 class="-only-in-oep">
-				<span class="js-label js-label-en">Billing address</span>
-				<span class="js-label js-label-es">Dirección de Envio</span>
+			<span class="js-label js-label-en">Billing address</span>
+			<span class="js-label js-label-es">Dirección de Envio</span>
 			<span class="asterisk-required">*</span>
 		</h2>
 
@@ -515,6 +515,8 @@
 		if(e.data.iframeInited){
 			$('#validate_payment').addClass('-never-show');
 			$('#error_message').addClass('-never-show');
+
+			sendFormHeightToParent();
 		}
 
 		if(e.data.idOfLanguage) {
