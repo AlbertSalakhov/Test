@@ -13,14 +13,14 @@
 <style>
 	@font-face {
 		font-family: 'Mundial';
-		src: url('./fonts/MundialLight.otf');
+		src: url('/fonts/MundialLight.otf');
 		font-weight: normal;
 		font-style: normal;
 	}
 
 	@font-face {
 		font-family: 'Mundial';
-		src: url('./fonts/MundialDemibold.otf');
+		src: url('/fonts/MundialDemibold.otf');
 		font-weight: 600;
 		font-style: normal;
 	}
@@ -206,6 +206,10 @@
 		background-size: 13px auto;
 		background-position: center right 12px;
 	}
+
+	body .form-in-oep#payment_info #validate_payment {
+		opacity: 0;
+	}
 	@media (min-width: 475px) {
 		.form-in-oep .col-sm-6 {
 			-ms-flex: 0 0 50%;
@@ -230,14 +234,14 @@
 
 		<h2 class="-only-in-oep">
 			<span class="js-label js-label-en">Billing information</span>
-			<span class="js-label js-label-es">Información de facturación</span>
+			<span class="js-label js-label-es">InformaciÃ³n de facturaciÃ³n</span>
 			<span class="asterisk-required">*</span>
 		</h2>
 
 		<div class="form-group">
 			<label for="ccNumber" class="required-label">
 				<span class="js-label js-label-en">Credit Card Number</span>
-				<span class="js-label js-label-es">Número de tarjeta de crédito</span>
+				<span class="js-label js-label-es">NÃºmero de tarjeta de crÃ©dito</span>
 			</label>
 
 			<input type="text" id="ccNumber" name="ccNumber" class="form-control" maxlength="16" inputmode="numeric"
@@ -248,7 +252,7 @@
 			<div class="form-group col-sm-6 d-flex flex-column form-group justify-content-end">
 				<label for="ccName" class="required-label">
 					<span class="js-label js-label-en">Name exactly as it appears on your credit card</span>
-					<span class="js-label js-label-es">Nombre exactamente como aparece en su tarjeta de crédito.</span>
+					<span class="js-label js-label-es">Nombre exactamente como aparece en su tarjeta de crÃ©dito.</span>
 				</label>
 
 				<input type="text" id="ccName" name="ccName" class="form-control" placeholder="Name on Credit Card" value="%ccName%" required>
@@ -257,7 +261,7 @@
 			<div class="form-group col-sm-6 d-flex flex-column form-group justify-content-end">
 				<label for="ccType" class="required-label">
 					<span class="js-label js-label-en">Credit Card Type</span>
-					<span class="js-label js-label-es">Tipo de tarjeta de crédito</span>
+					<span class="js-label js-label-es">Tipo de tarjeta de crÃ©dito</span>
 				</label>
 
 				<select id="ccType" name="ccType" class="form-control" required>
@@ -280,7 +284,7 @@
 			<div class="form-group col-sm-6">
 				<label for="ccExpYY" class="required-label">
 					<span class="js-label js-label-en">Card Expiration Year</span>
-					<span class="js-label js-label-es">Año de vencimiento de la tarjeta</span>
+					<span class="js-label js-label-es">AÃ±o de vencimiento de la tarjeta</span>
 				</label>
 
 				<select name="ccExpYY" id="ccExpYY" class="form-control sm" placeholder="Year" required>
@@ -312,14 +316,14 @@
 
 		<h2 class="-only-in-oep">
 			<span class="js-label js-label-en">Billing address</span>
-			<span class="js-label js-label-es">Dirección de Envio</span>
+			<span class="js-label js-label-es">DirecciÃ³n de Envio</span>
 			<span class="asterisk-required">*</span>
 		</h2>
 
 		<div class="form-group">
 			<label for="ccAddress" class="required-label">
 				<span class="js-label js-label-en">Billing Street Address (No P.O. Box)</span>
-				<span class="js-label js-label-es">Dirección de la calle de cobro</span>
+				<span class="js-label js-label-es">DirecciÃ³n de la calle de cobro</span>
 			</label>
 
 			<input type="text" id="ccAddress" name="ccAddress" class="form-control" value="%ccAddress%" required>
@@ -329,7 +333,7 @@
 			<div class="form-group col-sm-6">
 				<label for="ccAddress2">
 					<span class="js-label js-label-en">Apartment or Unit Number</span>
-					<span class="js-label js-label-es">Número de Unidad o Apartamento</span>
+					<span class="js-label js-label-es">NÃºmero de Unidad o Apartamento</span>
 				</label>
 				<input type="text" id="ccAddress2" name="ccAddress2" class="form-control" value="%ccAddress2%">
 			</div>
@@ -347,7 +351,7 @@
 			<div class="form-group col-sm-6">
 				<label for="ccZip" class="required-label">
 					<span class="js-label js-label-en">Zip Code</span>
-					<span class="js-label js-label-es">Código postal</span>
+					<span class="js-label js-label-es">CÃ³digo postal</span>
 				</label>
 
 				<input type="text" id="ccZip" name="ccZip" size="5" minlength="5" maxlength="5" class="form-control" value="%ccZip%" required>
@@ -377,7 +381,7 @@
 		<div class="loading_div" id="loading_div" style="display:none;">
 			<img src="/images/ajax-loader-transparent.gif">
 			<span class="js-label js-label-en">Validating Payment information...</span>
-			<span class="js-label js-label-es">Validando información de pago...</span>
+			<span class="js-label js-label-es">Validando informaciÃ³n de pago...</span>
 		</div>
 		<div class="form-check success-wrapper">
 			<img src="/images/check_medium.png" id="img_ok" class="img-fluid align-content-center">
@@ -432,33 +436,33 @@
 		es: {
 			required: "Este campo es obligatorio.",
 			remote: "Por favor, rellena este campo.",
-			email: "Por favor, escribe una dirección de correo válida.",
-			url: "Por favor, escribe una URL válida.",
-			date: "Por favor, escribe una fecha válida.",
-			dateISO: "Por favor, escribe una fecha (ISO) válida.",
-			number: "Por favor, escribe un número válido.",
-			digits: "Por favor, escribe sólo dígitos.",
+			email: "Por favor, escribe una direcciÃ³n de correo vÃ¡lida.",
+			url: "Por favor, escribe una URL vÃ¡lida.",
+			date: "Por favor, escribe una fecha vÃ¡lida.",
+			dateISO: "Por favor, escribe una fecha (ISO) vÃ¡lida.",
+			number: "Por favor, escribe un nÃºmero vÃ¡lido.",
+			digits: "Por favor, escribe sÃ³lo dÃ­gitos.",
 			equalTo: "Por favor, escribe el mismo valor de nuevo.",
-			maxlength: $.validator.format( "Por favor, no escribas más de {0} caracteres." ),
+			maxlength: $.validator.format( "Por favor, no escribas mÃ¡s de {0} caracteres." ),
 			minlength: $.validator.format( "Por favor, no escribas menos de {0} caracteres." ),
 			rangelength: $.validator.format( "Por favor, escribe un valor entre {0} y {1} caracteres." ),
 			range: $.validator.format( "Por favor, escribe un valor entre {0} y {1}." ),
 			max: $.validator.format( "Por favor, escribe un valor menor o igual a {0}." ),
 			min: $.validator.format( "Por favor, escribe un valor mayor o igual a {0}." ),
-			letterswithbasicpunc:"Solo letras o puntuación por favor",
-			numberswithbasicpunc: "Por favor ingrese el número de tarjeta de crédito",
-			CCExp: "Fecha de expiracion inválida"
+			letterswithbasicpunc:"Solo letras o puntuaciÃ³n por favor",
+			numberswithbasicpunc: "Por favor ingrese el nÃºmero de tarjeta de crÃ©dito",
+			CCExp: "Fecha de expiracion invÃ¡lida"
 		}
 	}
 
 	var placeholderTranslations = {
 		ccNumber: {
 			en:"Credit Card Number",
-			es: "Número de tarjeta de crédito",
+			es: "NÃºmero de tarjeta de crÃ©dito",
 		},
 		ccName: {
 			en: "Name on Credit Card",
-			es: "Su nombre en tarjeta de crédito",
+			es: "Su nombre en tarjeta de crÃ©dito",
 		},
 	}
 
@@ -515,11 +519,6 @@
 		if(e.data.iframeInited){
 			$('#validate_payment').addClass('-never-show');
 			$('#error_message').addClass('-never-show');
-
-			debugger;
-
-			console.log('HERE')
-			console.log($(form).outerHeight());
 
 			sendFormHeightToParent();
 		}
