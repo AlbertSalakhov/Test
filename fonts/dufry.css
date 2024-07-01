@@ -84568,3 +84568,7 @@ html.magnifying>body {
     width: 100%;
     z-index: 3
 }
+
+body {
+    background: none;
+}
