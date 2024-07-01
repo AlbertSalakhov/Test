@@ -84581,3 +84581,7 @@ body {
 .page-main-full-width {
     margin-top: 60px;
 }
+
+.home-banner-wrapper {
+    aspect-ratio: 500 / 617;
+}
