@@ -84579,7 +84579,7 @@ body {
 
 
 .page-main-full-width {
-    margin-top: 60px;
+    margin-top: 60px !important;
 }
 
 .home-banner-wrapper {
