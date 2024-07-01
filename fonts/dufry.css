@@ -84590,3 +84590,9 @@ body {
 .block-search {
     display: none !important;
 }
+
+
+
+.page-products .shop-by-sub-cstegory {
+    height:100px !important;
+}
