@@ -84572,3 +84572,12 @@ html.magnifying>body {
 body {
     background: none;
 }
+
+.discount-banner-wraper .guest_content{
+    display: flex !important;
+}
+
+
+.page-main-full-width {
+    margin-top: 60px;
+}
