@@ -258,40 +258,40 @@
 				<input type="text" id="ccName" name="ccName" class="form-control" placeholder="Name on Credit Card" value="%ccName%" required>
 			</div>
 
-			<div class="form-group col-sm-6 d-flex flex-column form-group justify-content-end">
-				<label for="ccType" class="required-label">
-					<span class="js-label js-label-en">Credit Card Type</span>
-					<span class="js-label js-label-es">Tipo de tarjeta de crédito</span>
-				</label>
+<!--			<div class="form-group col-sm-6 d-flex flex-column form-group justify-content-end">-->
+<!--				<label for="ccType" class="required-label">-->
+<!--					<span class="js-label js-label-en">Credit Card Type</span>-->
+<!--					<span class="js-label js-label-es">Tipo de tarjeta de crédito</span>-->
+<!--				</label>-->
 
-				<select id="ccType" name="ccType" class="form-control" required>
-					<TMPL_LOOP CC_LOOP><option VALUE="%TYPE%" %SELECTED%>%NAME%</option></TMPL_LOOP>
-				</select>
-			</div>
+<!--				<select id="ccType" name="ccType" class="form-control" required>-->
+<!--					<TMPL_LOOP CC_LOOP><option VALUE="%TYPE%" %SELECTED%>%NAME%</option></TMPL_LOOP>-->
+<!--				</select>-->
+<!--			</div>-->
 		</div>
 
-		<div class="form-row">
-			<div class="form-group col-sm-6">
-				<label for="ccExpMM" class="required-label">
-					<span class="js-label js-label-en">Card Expiration Month</span>
-					<span class="js-label js-label-es">Mes de vencimiento de la tarjeta</span>
-				</label>
+<!--		<div class="form-row">-->
+<!--			<div class="form-group col-sm-6">-->
+<!--				<label for="ccExpMM" class="required-label">-->
+<!--					<span class="js-label js-label-en">Card Expiration Month</span>-->
+<!--					<span class="js-label js-label-es">Mes de vencimiento de la tarjeta</span>-->
+<!--				</label>-->
 
-				<select id="ccExpMM" name="ccExpMM" class="form-control sm " placeholder="Exp. Month" required>
-					<TMPL_LOOP CC_EXP_MM_LOOP><option value="%MONTH%" %SELECTED%>%MONTH%</TMPL_LOOP CC_EXP_MM_LOOP>
-				</select>
-			</div>
-			<div class="form-group col-sm-6">
-				<label for="ccExpYY" class="required-label">
-					<span class="js-label js-label-en">Card Expiration Year</span>
-					<span class="js-label js-label-es">Año de vencimiento de la tarjeta</span>
-				</label>
+<!--				<select id="ccExpMM" name="ccExpMM" class="form-control sm " placeholder="Exp. Month" required>-->
+<!--					<TMPL_LOOP CC_EXP_MM_LOOP><option value="%MONTH%" %SELECTED%>%MONTH%</TMPL_LOOP CC_EXP_MM_LOOP>-->
+<!--				</select>-->
+<!--			</div>-->
+<!--			<div class="form-group col-sm-6">-->
+<!--				<label for="ccExpYY" class="required-label">-->
+<!--					<span class="js-label js-label-en">Card Expiration Year</span>-->
+<!--					<span class="js-label js-label-es">Año de vencimiento de la tarjeta</span>-->
+<!--				</label>-->
 
-				<select name="ccExpYY" id="ccExpYY" class="form-control sm" placeholder="Year" required>
-					<TMPL_LOOP CC_EXP_YY_LOOP><option value="%YEAR%" %SELECTED%>%YEAR%</TMPL_LOOP CC_EXP_YY_LOOP>
-				</select>
-			</div>
-		</div>
+<!--				<select name="ccExpYY" id="ccExpYY" class="form-control sm" placeholder="Year" required>-->
+<!--					<TMPL_LOOP CC_EXP_YY_LOOP><option value="%YEAR%" %SELECTED%>%YEAR%</TMPL_LOOP CC_EXP_YY_LOOP>-->
+<!--				</select>-->
+<!--			</div>-->
+<!--		</div>-->
 
 		<div class="form-group">
 			<label for="ccCVC" class="required-label">
@@ -707,6 +707,10 @@
 	function signal_parent(data){
 		if(data.errors == 0){
 			var data = { is_success: true, message: "Validation Passed" };
+
+			debugger;
+
+			console.log(data);
 
 			var event = new CustomEvent('checkout-bequick-success', {detail: data});
 		}
