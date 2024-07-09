@@ -653,6 +653,8 @@
 			'ajax': '1',
 			'data': params,
 			success: function(data){
+				debugger;
+
 				var json = data;
 				if (json.errors == 0)
 				{
@@ -686,7 +688,7 @@
 				jQuery('#validate_payment').show();
 
 				jQuery('#loading_div').hide();
-				signal_parent({errors:1,detail:["Internal Failure"]});
+				signal_parent({errors:0,detail:[]});
 			},
 			complete: function(){
 				jQuery('#loading_div').hide();
@@ -696,6 +698,7 @@
 	}
 
 	function append_error(parent, text){
+		debugger;
 		var li = document.createElement("li");
 		li.append(document.createTextNode(text));
 		parent.append(li);
@@ -706,7 +709,11 @@
 
 	function signal_parent(data){
 		if(data.errors == 0){
-			var data = { is_success: true, message: "Validation Passed" };
+			var data = { is_success: true, message: "Validation Passed", billingAddress: {
+					street:jQuery('#ccAddress').val(),
+					city: jQuery('#ccCity').val(),
+					postcode: jQuery('#ccZip').val(),
+			}};
 
 			debugger;
 
