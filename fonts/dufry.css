@@ -84596,3 +84596,11 @@ body {
 .page-products .shop-by-sub-cstegory {
     height:100px !important;
 }
+
+.mobile-fixed-addcart .js-mobile-fixed-addcart {
+    display: none !important;
+}
+
+body>.loading-mask {
+    display: none !important;
+}
